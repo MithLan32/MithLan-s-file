@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="首页.css">
+    <title>小米商城</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Microsoft Yahei", sans-serif;
+        }
+        
+        /* 最上面的小黑条 */
+        .小黑条 {
+            width: 100%;
+            height: 40px;
+            background-color: #333; 
+            font-size: 13px;
+            box-sizing: border-box;
+        }
+        
+        .小黑条内容 {
+            width: 1226px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .小黑条 .div-a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .小黑条 .div-b {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .小黑条 a {
+            text-decoration: none;
+            color: #b0b0b0;
+            font-weight: 300;
+        }
+        
+        .小黑条 a:hover {
+            color: #fff;
+        }
+        /* 白色导航栏 */
+        .白导航 {
+            width: 100%;
+            height: 100px;
+            background-color: #fff;
+        }
+        
+        .白导航内容 {
+            width: 1226px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .小米logo {
+            width: 55px;
+            height: 55px;
+            background-color: #ff6700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+        
+        .导航菜单 {
+            display: flex;
+            list-style: none;
+            flex: 1;
+        }
+        
+        .导航菜单 li {
+            margin: 0 15px;
+        }
+        
+        .导航菜单 a {
+            color: #333;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+        .导航菜单 a:hover {
+            color: #ff6700;
+        }
+        
+        .搜索框 {
+            display: flex;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .搜索框 input {
+            width: 245px;
+            height: 50px;
+            border: none;
+            padding: 0 15px;
+            outline: none;
+        }
+        
+        .搜索框 button {
+            width: 52px;
+            height: 50px;
+            border: none;
+            background-color: #fff;
+            border-left: 1px solid #e0e0e0;
+            cursor: pointer;
+        }
+        
+        /* 中间主要内容区 */
+        .中间区域 {
+            width: 1226px;
+            margin: 0 auto;
+        }
+        
+        /* 大图展示区 */
+        .大图区 {
+            display: flex;
+            height: 460px;
+            margin-bottom: 0px;
+            overflow: hidden;
+        }
+        
+        /* 左边分类列表 */
+        .分类列表 {
+            width: 234px;
+            height: 100%;
+            background-color: rgba(105, 101, 101, 0.6);
+            padding: 20px 0;
+        }
+        
+        .分类列表 ul {
+            list-style: none;
+        }
+        
+        .分类列表 li {
+            height: 42px;
+            line-height: 42px;
+            padding: 0 30px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .分类列表 li:hover {
+            background-color: #ff6700;
+        }
+        
+        /* 右边轮播图 */
+        .轮播图 {
+            flex: 1;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .轮播图 img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .轮播图内容 {
+            text-align: center;
+        }
+        
+        .轮播图内容 h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .轮播图内容 p {
+            font-size: 18px;
+            color: #666;
+        }
+        
+        /* 服务区和推荐区 */
+        .服务推荐区 {
+            display: flex;
+            height: 120px;
+            margin-bottom: 26px;
+        }
+        
+        /* 左边6个服务图标 */
+        .服务区 {
+            width: 234px;
+            height: 100%;
+            background-color: #5f5750;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 3px;
+        }
+        
+        .服务项 {
+            width: 76px;
+            height: 56px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 12px;
+            opacity: 0.7;
+            cursor: pointer;
+        }
+        
+        .服务项:hover {
+            opacity: 1;
+        }
+        
+        .服务图标 {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+            object-fit: contain;
+        }
+        
+        /* 右边3个产品推荐 */
+        .推荐区 {
+            flex: 1;
+            display: flex;
+            margin-left: 14px;
+            gap: 14px;
+        }
+        
+        .推荐卡片 {
+            flex: 1;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: pointer;
+        }
+        
+        .推荐卡片:hover {
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .推荐图片 {
+            width: 100%;
+            max-height: 80px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+        
+        .推荐名字 {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        /* 小米长图 */
+        .小米长图 {
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .长图 {
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        /* 产品展示大区域 */
+        .产品展示区 {
+            background-color: #f5f5f5;
+            padding: 40px 0;
+        }
+        
+        .区域标题 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .产品网格 {
+            display: flex;
+            gap: 14px;
+        }
+        
+        /* 左边大产品 */
+        .大产品 {
+            width: 234px;
+            height: 614px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .大产品:hover {
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        /* 右边8个小产品 */
+        .小产品列表 {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+        
+        .小产品 {
+            background-color: #fff;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: pointer;
+        }
+        
+        .小产品:hover {
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .小产品图片 {
+            width: 160px;
+            height: 160px;
+            background-color: #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .小产品名字 {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .小产品描述 {
+            font-size: 12px;
+            color: #b0b0b0;
+            margin-bottom: 10px;
+        }
+        
+        .小产品价格 {
+            font-size: 14px;
+            color: #ff6700;
+        }
+
+    
+    </style>
+</head>
+<body>
+    <!-- 最上面的小黑条 -->
+    <div class="小黑条">
+        <div class="小黑条内容">
+            <div class="div-a">
+                <a href="#">小米官网</a>
+                <a href="#">|</a>
+                <a href="#">小米商城</a>
+                <a href="#">|</a>   
+                <a href="#">小米澎湃OS</a>
+                <a href="#">|</a>
+                <a href="#">小米汽车</a>
+                <a href="#">|</a>
+                <a href="#">云服务</a>
+                <a href="#">|</a>
+                <a href="#">loT</a>
+                <a href="#">|</a>
+                <a href="#">有品</a>
+                <a href="#">|</a>
+                <a href="#">小爱开放平台</a>
+                <a href="#">|</a>
+                <a href="#">资质证照</a>
+                <a href="#">|</a>
+                <a href="#">协议规则</a>
+                <a href="#">|</a>
+                <a href="#">下载app</a>
+                <a href="#">|</a>
+                <a href="#">Select Location</a>
+            </div>
+            <div class="div-b">
+                <a href="#">登录</a>
+                <a href="#">|</a>
+                <a href="#">注册</a>
+                <a href="#">|</a>
+                <a href="#">购物车</a>
+                <a href="#">|</a>
+                <a href="#">消息通知</a>    
+            </div>
+        </div>
+    </div>
+   
+    <!-- 白色导航栏 -->
+    <div class="白导航">
+        <div class="白导航内容">
+            <div class="小米logo">MI</div>
+            <ul class="导航菜单">
+                <li><a href="#">Xiaomi手机</a></li>
+                <li><a href="#">REDMI手机</a></li>
+                <li><a href="#">电视</a></li>
+                <li><a href="#">笔记本</a></li>
+                <li><a href="#">平板</a></li>
+                <li><a href="#">家电</a></li>
+                <li><a href="#">路由器</a></li>
+            </ul>
+            <div class="搜索框">
+                <input type="text" placeholder="搜索商品">
+                <button>🔍</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 中间主要内容 -->
+    <div class="中间区域">
+        <!-- 大图展示区 -->
+        <div class="大图区">
+            <!-- 左边分类 -->
+            <div class="分类列表">
+                <ul>
+                    <li>手机 ></li>
+                    <li>电视 ></li>
+                    <li>家电 ></li>
+                    <li>笔记本 ></li>
+                    <li>出行 ></li>
+                    <li>耳机 ></li>
+                    <li>健康 ></li>
+                    <li>生活 ></li>
+                    <li>智能 ></li>
+                    <li>配件 ></li>
+                </ul>
+            </div>
+            <!-- 右边轮播图 -->
+            <div class="轮播图">
+                <img src="3622678ff349f0d927336a6e4a4257ad.webp" alt="轮播图">
+
+            </div>
+        </div>
+        
+        <!-- 服务区和推荐区 -->
+        <div class="服务推荐区">
+            <!-- 左边服务 -->
+            <div class="服务区">
+                <div class="服务项">
+                    <img src="保障.png" alt="保障服务" class="服务图标">
+                    <span>保障服务</span>
+                </div>
+                <div class="服务项">
+                    <img src="企业团购.png" alt="企业团购" class="服务图标">
+                    <span>企业团购</span>
+                </div>
+                <div class="服务项">
+                    <img src="F码.png" alt="F码通道" class="服务图标">
+                    <span>F码通道</span>
+                </div>
+                <div class="服务项">
+                    <img src="卡.png" alt="米粉卡" class="服务图标">
+                    <span>米粉卡</span>
+                </div>
+                <div class="服务项">
+                    <img src="以旧换新.png" alt="以旧换新" class="服务图标">  
+                    <span>以旧换新</span>
+                </div>
+                <div class="服务项">
+                    <img src="话费.png" alt="话费充值" class="服务图标">
+                    <span>话费充值</span>
+                </div>
+            </div>
+            <!-- 右边推荐 -->
+            <div class="推荐区">
+                <div class="推荐卡片">
+                    <img src="左一图.png" alt="Xiaomi 15" class="推荐图片">
+                    <div class="推荐名字">Xiaomi 15</div>
+                </div>
+                <div class="推荐卡片">
+                    <img src="左二图.png" alt="REDMI K Pad" class="推荐图片">
+                    <div class="推荐名字">REDMI K Pad</div>
+                </div>
+                <div class="推荐卡片">
+                    <img src="左三图.png" alt="Xiaomi Watch" class="推荐图片">
+                    <div class="推荐名字">Xiaomi Watch</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 小米长图 -->
+    <div class="小米长图">
+        <img src="小米长图.webp" alt="小米长图" class="长图">
+    </div>
+    
+    <!-- 产品展示区 -->
+    <div class="产品展示区">
+        <div class="中间区域">
+            <h2 class="区域标题">手机</h2>
+            <div class="产品网格">
+                <!-- 左边大产品 -->
+                <div class="大产品">
+                    <h3>Xiaomi 17</h3>
+                    <p>购机享好礼</p>
+                </div>
+                <!-- 右边8个小产品 -->
+                 <!--但是图片每一次看都在变，好难找，先不加图片了-->
+                <div class="小产品列表">
+                    <div class="小产品">
+                        <div class="小产品图片"></div>
+                        <div class="小产品名字">Xiaomi 15</div>
+                        <div class="小产品描述">徕卡镜头</div>
+                        <div class="小产品价格">4499元起</div>
+                    </div>
+                    <div class="小产品">
+                        <div class="小产品图片"></div>
+                        <div class="小产品名字">Xiaomi 15 Pro</div>
+                        <div class="小产品描述">徕卡镜头</div>
+                        <div class="小产品价格">5299元起</div>
+                    </div>
+                    <div class="小产品">
+                        <div class="小产品图片"></div>
+                        <div class="小产品名字">REDMI K80</div>
+                        <div class="小产品描述">双旗舰</div>
+                        <div class="小产品价格">2499元起</div>
+                    </div>
+                    <div class="小产品">
+                        <div class="小产品图片"></div>
+                        <div class="小产品名字">REDMI K80 Pro</div>
+                        <div class="小产品描述">双旗舰</div>
+                        <div class="小产品价格">3699元起</div>
+                    </div>
+                    <div class="小产品">
+                        <div class="小产品图片"></div>
+                        <div class="小产品名字">MIX Fold 4</div>
+                        <div class="小产品描述">折叠旗舰</div>
+                        <div class="小产品价格">8999元起</div>
+                    </div>
+                    <div class="小产品">
+                        <div class="小产品图片"></div>
+                        <div class="小产品名字">Civi 4 Pro</div>
+                        <div class="小产品描述">专业三摄</div>
+                        <div class="小产品价格">2999元起</div>
+                    </div>
+                    <div class="小产品">
+                        <div class="小产品图片"></div>
+                        <div class="小产品名字">Turbo 4</div>
+                        <div class="小产品描述">天玑处理器</div>
+                        <div class="小产品价格">1999元起</div>
+                    </div>
+                    <div class="小产品">
+                        <div class="小产品图片"></div>
+                        <div class="小产品名字">查看更多</div>
+                        <div class="小产品描述">热门手机</div>
+                        <div class="小产品价格">></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
