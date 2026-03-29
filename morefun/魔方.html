@@ -1,0 +1,2088 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>魔方工作室 - Morefun Studios</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 固定导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: #2c69e0;
+            color: white;
+            padding: 20px 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-left: -10px;
+        }
+
+        .logo img {
+            height: 42px;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+        }
+
+        /* 页面内容 */
+        .content {
+            margin-top: 70px;
+            /* 为固定导航栏留出空间 */
+        }
+
+        /* 首页横幅 */
+        .hero {
+            position: relative;
+            background-color: #000;
+            color: white;
+            height: auto;
+            overflow: hidden;
+            max-width: 100vw;
+        }
+
+        .hero img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 1200px) {
+            .thumbnail {
+                width: 100px;
+                height: 65px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slider-controls {
+                gap: 10px;
+            }
+
+            .thumbnail {
+                width: 80px;
+                height: 50px;
+            }
+
+            .slider-arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            .slide-content {
+                bottom: 30%;
+                left: 5%;
+            }
+
+            .slide-btn {
+                padding: 8px 20px;
+                font-size: 14px;
+            }
+        }
+
+        .slide-content {
+            position: absolute;
+            bottom: 40%;
+            left: 10%;
+            z-index: 10;
+        }
+
+        .slide-btn {
+            background-color: #2c69e0;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .slide.active .slide-btn {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 1s;
+        }
+
+        .slider-controls {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .slider-arrow {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .slider-arrow:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .slide-thumbnails {
+            display: flex;
+            gap: 15px;
+        }
+
+        .thumbnail {
+            width: 120px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        .thumbnail:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+
+        .thumbnail.active {
+            opacity: 1;
+            border: 2px solid #2c69e0;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 游戏介绍 */
+        .games-section {
+            background-color: #f5f7fa;
+            padding: 80px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .container-fullwidth {
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 全屏展示区域 */
+        .games-container {
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .about-section .timeline,
+        .about-section .products-grid {
+            width: 100%;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .section-title span {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .games-container {
+            position: relative;
+            margin-top: 30px;
+            overflow: hidden;
+        }
+
+        .arrow-controls {
+            position: relative;
+            margin-bottom: 20px;
+            background-color: #5b7cff;
+            border-radius: 30px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 20;
+            width: fit-content;
+            margin-left: auto;
+        }
+
+        .arrow-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 24px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0;
+            position: relative;
+        }
+
+        .arrow-btn .arrow-icon {
+            transition: transform 0.3s ease;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .arrow-btn .arrow-line {
+            width: 0;
+            height: 1px;
+            background-color: white;
+            transition: width 0.3s ease;
+            margin: 0;
+            vertical-align: middle;
+            position: relative;
+            top: 1px;
+        }
+
+        .arrow-btn.active .arrow-line {
+            width: 18px;
+        }
+
+        .arrow-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .arrow-dot {
+            width: 6px;
+            height: 6px;
+            background-color: white;
+            border-radius: 50%;
+            margin: 0 4px;
+        }
+
+        .games-wrapper {
+            overflow: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        .games-grid {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            transition: transform 0.5s ease;
+            width: fit-content;
+        }
+
+        .game-item {
+            width: 300px;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, width 0.5s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .game-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .game-item.active {
+            width: 600px;
+            z-index: 10;
+            transform: scale(1.05);
+        }
+
+        .game-thumbnail {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            display: block;
+            transition: opacity 0.3s ease;
+        }
+
+        .game-item.active .game-thumbnail {
+            opacity: 0;
+        }
+
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #2c69e0;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .game-item.active .game-overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .game-large-image {
+            width: 100%;
+            height: 60%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .game-info {
+            flex: 1;
+            padding: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .game-small-icon {
+            position: absolute;
+            bottom: 120px;
+            left: 20px;
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-small-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .game-info h3 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 0 10px 100px;
+        }
+
+        .game-info p {
+            font-size: 14px;
+            margin: 0 0 20px 100px;
+            opacity: 0.9;
+        }
+
+        .game-btn {
+            display: inline-block;
+            background-color: white;
+            color: #2c69e0;
+            padding: 8px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            margin-left: 100px;
+            align-self: flex-start;
+            transition: background-color 0.3s ease;
+        }
+
+        .game-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* 游戏汇总样式 */
+        .game-summary {
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+            color: white;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-right: 20px;
+        }
+
+        .summary-text {
+            flex: 1;
+        }
+
+        .summary-text h4 {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+
+        .summary-text p {
+            font-size: 14px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .summary-btn {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+        }
+
+        .summary-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* 热门栏目 */
+        .columns-section {
+            padding: 80px 0;
+        }
+
+        .columns-grid {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            grid-template-rows: auto auto auto;
+            gap: 24px;
+        }
+
+        .column-item {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .column-item:hover {
+            background-color: #2c69e0;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(44, 105, 224, 0.3);
+        }
+
+        .column-item:hover .column-content h3,
+        .column-item:hover .column-content p {
+            color: white;
+        }
+
+        .column-item:hover .column-content .date {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .column-item:hover .text-part h3 {
+            color: white;
+        }
+
+        .column-item:hover .text-part .date {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .column-item.large {
+            grid-row: span 3;
+            grid-column: 1;
+        }
+
+        .column-item.small {
+            grid-row: span 1;
+            grid-column: 2;
+        }
+
+        /* 确保右边三个小盒子从上到下排列 */
+        .column-item.small:nth-child(2) {
+            grid-row: 1;
+        }
+
+        .column-item.small:nth-child(3) {
+            grid-row: 2;
+        }
+
+        .column-item.small:nth-child(4) {
+            grid-row: 3;
+        }
+
+        .column-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .column-item.large img {
+            height: 380px;
+            object-fit: cover;
+        }
+
+        .column-item.small img {
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .column-content {
+            padding: 20px;
+        }
+
+        .column-content h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .column-content .date {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .column-content p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        /* 小盒子布局 */
+        .small-item-content {
+            display: flex;
+            height: 100%;
+        }
+
+        .text-part {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .image-part {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .image-part img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .text-part h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .text-part .date {
+            font-size: 13px;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        /* 大盒子布局 */
+        .large-item-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .large-item-content img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px 8px 0 0;
+        }
+
+        /* 关于魔方 */
+        .about-section {
+            background-color: #f5f7fa;
+            padding: 80px 0;
+        }
+
+        .about-content {
+            margin-bottom: 40px;
+        }
+
+        .about-content p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: flex-start;
+            margin: 40px 0;
+            position: relative;
+            gap: 50px;
+            overflow-x: auto;
+            padding: 10px 0;
+        }
+
+        .timeline::-webkit-scrollbar {
+            display: none;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #e0e0e0;
+            transform: translateY(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            text-align: center;
+            z-index: 1;
+            background-color: white;
+            color: #2c69e0;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid #2c69e0;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item.active,
+        .timeline-item:hover {
+            background-color: #2c69e0;
+            color: white;
+        }
+
+        .products-grid {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scroll-behavior: smooth;
+        }
+
+        .products-grid::-webkit-scrollbar {
+            display: none;
+        }
+
+        .product-item {
+            flex: 0 0 auto;
+            width: 350px;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .product-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .product-item.center {
+            background-color: #2c69e0;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 30px;
+        }
+
+        .product-item.center h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .product-item.center p {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .product-item.center .btn {
+            background-color: white;
+            color: #2c69e0;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        /* 加入我们 */
+        .join-section {
+            padding: 80px 0;
+            background-color: #f5f7fa;
+        }
+
+        .join-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .join-item {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .join-image-wrapper {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .join-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .join-tag {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: white;
+            color: #333;
+            padding: 6px 16px;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .join-content {
+            padding: 24px;
+        }
+
+        .join-content .position {
+            font-size: 14px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .join-content .position .location {
+            color: #2c69e0;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .join-content .position .location::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-color: #2c69e0;
+            border-radius: 50%;
+        }
+
+        .join-content .btn {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #5b7cff;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 24px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 15px;
+            margin-top: 24px;
+            transition: background-color 0.3s ease;
+        }
+
+        .join-content .btn:hover {
+            background-color: #4a6af0;
+        }
+
+        /* 游戏图片点击效果 */
+        .game-image {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .game-image:hover {
+            transform: scale(1.05);
+        }
+
+        /* 图片模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 80%;
+            max-height: 60%;
+            animation: modalFadeIn 0.5s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .modal-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .close {
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40vh;
+            background-color: #2c69e0;
+            animation: footerSlideUp 0.5s ease;
+        }
+
+        @keyframes footerSlideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+
+
+        /* 底部栏 */
+        .footer {
+            background: linear-gradient(135deg, #5b7cff 0%, #2c69e0 100%);
+            padding: 40px 0;
+            color: white;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-left {
+            flex: 1;
+        }
+
+        .footer-icons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .footer-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .footer-icon:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .footer-icon img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        .footer-links {
+            font-size: 12px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-copyright {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .footer-copyright p {
+            margin: 0;
+        }
+
+        .footer-right {
+            margin-left: 40px;
+        }
+
+        .footer-logo {
+            height: 60px;
+            object-fit: contain;
+        }
+
+        /* 返回顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #2c69e0;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .columns-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .join-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="图片6/logo.webp" alt="MOREFUN 魔方工作室群">
+            </div>
+            <div class="nav-links">
+                <a href="#">首页</a>
+                <a href="#games">游戏介绍</a>
+                <a href="#columns">热门栏目</a>
+                <a href="#about">关于魔方</a>
+                <a href="#join">加入我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面内容 -->
+    <div class="content">
+        <!-- 首页横幅 -->
+        <section class="hero">
+            <div class="hero-slider">
+                <!-- 轮播图片 -->
+                <div class="slide active">
+                    <img src="图片1/异人之下.png" alt="异人之下">
+                    <div class="slide-content">
+                        <a href="#" class="slide-btn">了解详情</a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="图片1/暗区突围.png" alt="暗区突围">
+                    <div class="slide-content">
+                        <a href="#" class="slide-btn">了解详情</a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="图片1/暗区突围无限.png" alt="暗区突围无限">
+                    <div class="slide-content">
+                        <a href="#" class="slide-btn">了解详情</a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="图片1/洛克王国.png" alt="洛克王国">
+                    <div class="slide-content">
+                        <a href="#" class="slide-btn">了解详情</a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="图片1/火影忍者.png" alt="火影忍者">
+                    <div class="slide-content">
+                        <a href="#" class="slide-btn">了解详情</a>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="图片1/航海王.png" alt="航海王">
+                    <div class="slide-content">
+                        <a href="#" class="slide-btn">了解详情</a>
+                    </div>
+                </div>
+
+                <!-- 控制按钮和缩略图 -->
+                <div class="slider-controls">
+                    <button class="slider-arrow" id="prevBtn">&lt;</button>
+                    <div class="slide-thumbnails">
+                        <div class="thumbnail active" data-index="0">
+                            <img src="图片1/异人之下.png" alt="异人之下">
+                        </div>
+                        <div class="thumbnail" data-index="1">
+                            <img src="图片1/暗区突围.png" alt="暗区突围">
+                        </div>
+                        <div class="thumbnail" data-index="2">
+                            <img src="图片1/暗区突围无限.png" alt="暗区突围无限">
+                        </div>
+                        <div class="thumbnail" data-index="3">
+                            <img src="图片1/洛克王国.png" alt="洛克王国">
+                        </div>
+                        <div class="thumbnail" data-index="4">
+                            <img src="图片1/火影忍者.png" alt="火影忍者">
+                        </div>
+                        <div class="thumbnail" data-index="5">
+                            <img src="图片1/航海王.png" alt="航海王">
+                        </div>
+                    </div>
+                    <button class="slider-arrow" id="nextBtn">&gt;</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 游戏介绍 -->
+        <section class="games-section" id="games">
+            <div class="container">
+                <div class="section-title">
+                    <img src="图片2/游戏介绍图标.png" alt="游戏介绍" style="height: 42px;">
+                </div>
+            </div>
+            <div class="games-container">
+                <div class="arrow-controls">
+                    <button class="arrow-btn" id="leftArrow">
+                        <span class="arrow-icon">←</span>
+                        <span class="arrow-line left-line"></span>
+                    </button>
+                    <span class="arrow-dot"></span>
+                    <button class="arrow-btn" id="rightArrow">
+                        <span class="arrow-line right-line"></span>
+                        <span class="arrow-icon">→</span>
+                    </button>
+                </div>
+                <div class="games-wrapper" id="gamesWrapper">
+                    <div class="games-grid" id="gamesGrid">
+                        <!-- 洛克王国 -->
+                        <div class="game-item" data-index="0">
+                            <img src="图片2/洛克王国世界.png" alt="洛克王国" class="game-thumbnail">
+                            <div class="game-overlay">
+                                <img src="图片2/洛克王国世界.png" alt="洛克王国" class="game-large-image">
+                                <div class="game-info">
+                                    <div class="game-small-icon">
+                                        <img src="图片2/洛克王国小图.png" alt="洛克王国">
+                                    </div>
+                                    <h3>洛克王国</h3>
+                                    <p>点亮魔法，放飞童年</p>
+                                    <a href="#" class="game-btn">进入官网 →</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 异人之下 -->
+                        <div class="game-item" data-index="1">
+                            <img src="图片2/异人之下.png" alt="异人之下" class="game-thumbnail">
+                            <div class="game-overlay">
+                                <img src="图片2/异人之下.png" alt="异人之下" class="game-large-image">
+                                <div class="game-info">
+                                    <div class="game-small-icon">
+                                        <img src="图片2/异人之下小图.png" alt="异人之下">
+                                    </div>
+                                    <h3>异人之下</h3>
+                                    <p>中国风格斗手游</p>
+                                    <a href="#" class="game-btn">进入官网 →</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 火影忍者 -->
+                        <div class="game-item" data-index="2">
+                            <img src="图片2/火影忍者.png" alt="火影忍者" class="game-thumbnail">
+                            <div class="game-overlay">
+                                <img src="图片2/火影忍者.png" alt="火影忍者" class="game-large-image">
+                                <div class="game-info">
+                                    <div class="game-small-icon">
+                                        <img src="图片2/火影忍者小图.png" alt="火影忍者">
+                                    </div>
+                                    <h3>火影忍者手游</h3>
+                                    <p>正版授权格斗手游</p>
+                                    <a href="#" class="game-btn">进入官网 →</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 暗区突围 -->
+                        <div class="game-item" data-index="3">
+                            <img src="图片2/暗区突围.png" alt="暗区突围" class="game-thumbnail">
+                            <div class="game-overlay">
+                                <img src="图片2/暗区突围.png" alt="暗区突围" class="game-large-image">
+                                <div class="game-info">
+                                    <div class="game-small-icon">
+                                        <img src="图片2/暗区突围小图.png" alt="暗区突围">
+                                    </div>
+                                    <h3>暗区突围</h3>
+                                    <p>硬核射击游戏</p>
+                                    <a href="#" class="game-btn">进入官网 →</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 航海王 -->
+                        <div class="game-item" data-index="4">
+                            <img src="图片2/航海王.png" alt="航海王" class="game-thumbnail">
+                            <div class="game-overlay">
+                                <img src="图片2/航海王.png" alt="航海王" class="game-large-image">
+                                <div class="game-info">
+                                    <div class="game-small-icon">
+                                        <img src="图片2/航海王小图.png" alt="航海王">
+                                    </div>
+                                    <h3>航海王：壮志雄心</h3>
+                                    <p>每个伙伴都是梦想的主角</p>
+                                    <a href="#" class="game-btn">进入官网 →</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 游戏汇总 -->
+                        <div class="game-item" data-index="5">
+                            <img src="图片2/航海王.png" alt="游戏汇总" class="game-thumbnail">
+                            <div class="game-overlay">
+                                <div class="game-summary">
+                                    <div class="summary-item">
+                                        <img src="图片2/洛克王国小图.png" alt="洛克王国">
+                                        <div class="summary-text">
+                                            <h4>洛克王国</h4>
+                                            <p>点亮魔法，放飞童年</p>
+                                        </div>
+                                        <a href="#" class="summary-btn">进入官网 →</a>
+                                    </div>
+                                    <div class="summary-item">
+                                        <img src="图片2/王牌战士小图.png" alt="王牌战士">
+                                        <div class="summary-text">
+                                            <h4>王牌战士</h4>
+                                            <p>热血漫画手游</p>
+                                        </div>
+                                        <a href="#" class="summary-btn">进入官网 →</a>
+                                    </div>
+                                    <div class="summary-item">
+                                        <img src="图片2/全民农场小图.png" alt="全民农场">
+                                        <div class="summary-text">
+                                            <h4>全民农场</h4>
+                                            <p>在最美的农场遇见你</p>
+                                        </div>
+                                        <a href="#" class="summary-btn">进入官网 →</a>
+                                    </div>
+                                    <div class="summary-item">
+                                        <img src="图片2/异人之下小图.png" alt="一人之下">
+                                        <div class="summary-text">
+                                            <h4>一人之下</h4>
+                                            <p>中国范儿格斗手游</p>
+                                        </div>
+                                        <a href="#" class="summary-btn">进入官网 →</a>
+                                    </div>
+                                    <div class="summary-item">
+                                        <img src="图片2/洛克王国迪莫.png" alt="仙剑奇侠传">
+                                        <div class="summary-text">
+                                            <h4>仙剑奇侠传</h4>
+                                            <p>正版仙剑手游</p>
+                                        </div>
+                                        <a href="#" class="summary-btn">进入官网 →</a>
+                                    </div>
+                                    <div class="summary-item">
+                                        <img src="图片2/火影忍者小图1.png" alt="火影忍者：忍者新世代">
+                                        <div class="summary-text">
+                                            <h4>火影忍者：忍者新世代</h4>
+                                            <p>正版火影忍者大世界手游</p>
+                                        </div>
+                                        <a href="#" class="summary-btn">进入官网 →</a>
+                                    </div>
+                                    <div class="summary-item">
+                                        <img src="图片2/傲世西游小图.png" alt="傲世西游">
+                                        <div class="summary-text">
+                                            <h4>傲世西游</h4>
+                                            <p>西游主题魔幻手游</p>
+                                        </div>
+                                        <a href="#" class="summary-btn">进入官网 →</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    </section>
+
+    <!-- 图片模态框 -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img class="modal-img" src="" alt="">
+        </div>
+        <div class="modal-footer">
+            <div class="blue-box"></div>
+        </div>
+    </div>
+
+
+
+    <!-- 热门栏目 -->
+    <section class="columns-section" id="columns">
+        <div class="container">
+            <div class="section-title">
+                <img src="图片3/title2.png" alt="热门栏目" style="height: 42px;">
+            </div>
+            <div class="columns-grid">
+                <div class="column-item large">
+                    <div class="large-item-content">
+                        <img src="图片3/20251128025824-l6nufw (1).png" alt="游戏编年史">
+                        <div class="column-content">
+                            <h3>谁才是暗区新枪AA12的最佳拍档...</h3>
+                            <div class="date">魔方研究 | 11-26</div>
+                            <p>《暗区突围》子弹大全</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="column-item small">
+                    <div class="small-item-content">
+                        <div class="text-part">
+                            <h3>12月3日，魔方超有料直面会等你！</h3>
+                            <div class="date">工作室要闻 | 11-26</div>
+                        </div>
+                        <div class="image-part">
+                            <img src="图片3/20251126144405-uavf2y.png" alt="魔方直面会">
+                        </div>
+                    </div>
+                </div>
+                <div class="column-item small">
+                    <div class="small-item-content">
+                        <div class="text-part">
+                            <h3>魔方工作室十五周年征集活动</h3>
+                            <div class="date">活动赛事 | 11-19</div>
+                        </div>
+                        <div class="image-part">
+                            <img src="图片3/20251127110043-2kp763.png" alt="十五周年活动">
+                        </div>
+                    </div>
+                </div>
+                <div class="column-item small">
+                    <div class="small-item-content">
+                        <div class="text-part">
+                            <h3>魔方工作室游戏编年史</h3>
+                            <div class="date">工作室要闻 | 11-20</div>
+                        </div>
+                        <div class="image-part">
+                            <img src="图片3/20251126134213-sukkyt.png" alt="暗区新枪">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于魔方 -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="section-title">
+                <img src="图片4/title3.png" alt="关于魔方" style="height: 42px;">
+            </div>
+            <div class="about-content">
+                <p>魔方工作室群（Morefun
+                    Studios）是腾讯游戏旗下自研游戏工作室群，成立于2010年，以"创造一个时代的游戏记忆"为愿景，专注于动作、射击、大世界RPG等多品类游戏研发与运营。各个时期代表作品包括《QQ宠物》《洛克王国》《火影忍者手游》《王牌战士》《暗区突围》系列、《航海王：壮志雄心》等。其中《QQ宠物》是全球首款基于IM的桌面虚拟宠物养成游戏，其后发展成为全球最大的网络虚拟宠物社区；《洛克王国》是中国乃至世界最大的儿童网页游戏社区；《火影忍者手游》则为手游时代动作游戏领域的标杆产品，日活跃突破千万；《暗区突围》手游是硬核射击游戏的头部游戏，2025年魔方也正式上线了第一款端游产品《暗区突围：无限》，其PC的全球注册玩家数量已达到了1.8亿。
+                </p>
+            </div>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item" data-index="0">2009</div>
+            <div class="timeline-item" data-index="1">2010</div>
+            <div class="timeline-item" data-index="2">2010</div>
+            <div class="timeline-item" data-index="3">2011</div>
+            <div class="timeline-item" data-index="4">2011</div>
+            <div class="timeline-item" data-index="5">2011</div>
+            <div class="timeline-item" data-index="6">2012</div>
+            <div class="timeline-item" data-index="7">2012</div>
+            <div class="timeline-item" data-index="8">2013</div>
+            <div class="timeline-item" data-index="9">2014</div>
+            <div class="timeline-item" data-index="10">2014</div>
+            <div class="timeline-item" data-index="11">2014</div>
+            <div class="timeline-item" data-index="12">2014</div>
+            <div class="timeline-item" data-index="13">2014</div>
+            <div class="timeline-item" data-index="14">2014</div>
+            <div class="timeline-item" data-index="15">2015</div>
+            <div class="timeline-item" data-index="16">2015</div>
+            <div class="timeline-item" data-index="17">2015</div>
+            <div class="timeline-item" data-index="18">2016</div>
+            <div class="timeline-item" data-index="19">2017</div>
+            <div class="timeline-item" data-index="20">2017</div>
+            <div class="timeline-item" data-index="21">2017</div>
+            <div class="timeline-item" data-index="22">2018</div>
+            <div class="timeline-item" data-index="23">2018</div>
+            <div class="timeline-item" data-index="24">2019</div>
+            <div class="timeline-item" data-index="25">2020</div>
+            <div class="timeline-item" data-index="26">2021</div>
+            <div class="timeline-item" data-index="27">2022</div>
+            <div class="timeline-item active" data-index="28">2023</div>
+            <div class="timeline-item" data-index="29">2024</div>
+        </div>
+        <div class="products-grid" id="productsGrid">
+            <!-- 2009 -->
+            <div class="product-item" data-index="0">
+                <img src="图片4/2009.png" alt="2009">
+            </div>
+            <!-- 2010 -->
+            <div class="product-item" data-index="1">
+                <img src="图片4/2010.png" alt="2010">
+            </div>
+            <div class="product-item" data-index="2">
+                <img src="图片4/2010.1" alt="2010.1">
+            </div>
+            <!-- 2011 -->
+            <div class="product-item" data-index="3">
+                <img src="图片4/2011.png" alt="2011">
+            </div>
+            <div class="product-item" data-index="4">
+                <img src="图片4/2011.1" alt="2011.1">
+            </div>
+            <div class="product-item" data-index="5">
+                <img src="图片4/2011.2.png" alt="2011.2">
+            </div>
+            <!-- 2012 -->
+            <div class="product-item" data-index="6">
+                <img src="图片4/2012.png" alt="2012">
+            </div>
+            <div class="product-item" data-index="7">
+                <img src="图片4/2012.1" alt="2012.1">
+            </div>
+            <!-- 2013 -->
+            <div class="product-item" data-index="8">
+                <img src="图片4/2013.png" alt="2013">
+            </div>
+            <!-- 2014 -->
+            <div class="product-item" data-index="9">
+                <img src="图片4/2014.png" alt="2014">
+            </div>
+            <div class="product-item" data-index="10">
+                <img src="图片4/2014.1" alt="2014.1">
+            </div>
+            <div class="product-item" data-index="11">
+                <img src="图片4/2014.2.png" alt="2014.2">
+            </div>
+            <div class="product-item" data-index="12">
+                <img src="图片4/2014.3.png" alt="2014.3">
+            </div>
+            <div class="product-item" data-index="13">
+                <img src="图片4/2014.4.png" alt="2014.4">
+            </div>
+            <div class="product-item" data-index="14">
+                <img src="图片4/2014.5.png" alt="2014.5">
+            </div>
+            <!-- 2015 -->
+            <div class="product-item" data-index="15">
+                <img src="图片4/2015.png" alt="2015">
+            </div>
+            <div class="product-item" data-index="16">
+                <img src="图片4/2015.1" alt="2015.1">
+            </div>
+            <div class="product-item" data-index="17">
+                <img src="图片4/2015.2.png" alt="2015.2">
+            </div>
+            <!-- 2016 -->
+            <div class="product-item" data-index="18">
+                <img src="图片4/2016.png" alt="2016">
+            </div>
+            <!-- 2017 -->
+            <div class="product-item" data-index="19">
+                <img src="图片4/2017.png" alt="2017">
+            </div>
+            <div class="product-item" data-index="20">
+                <img src="图片4/2017.1" alt="2017.1">
+            </div>
+            <div class="product-item" data-index="21">
+                <img src="图片4/2017.2.png" alt="2017.2">
+            </div>
+            <!-- 2018 -->
+            <div class="product-item" data-index="22">
+                <img src="图片4/2018.png" alt="2018">
+            </div>
+            <div class="product-item" data-index="23">
+                <img src="图片4/2018.1" alt="2018.1">
+            </div>
+            <!-- 2019 -->
+            <div class="product-item" data-index="24">
+                <img src="图片4/2019.png" alt="2019">
+            </div>
+            <!-- 2020 -->
+            <div class="product-item" data-index="25">
+                <img src="图片4/2020.png" alt="2020">
+            </div>
+            <!-- 2021 -->
+            <div class="product-item" data-index="26">
+                <img src="图片4/2021.png" alt="2021">
+            </div>
+            <!-- 2022 -->
+            <div class="product-item" data-index="27">
+                <img src="图片4/2022.png" alt="2022">
+            </div>
+            <!-- 2023 -->
+            <div class="product-item" data-index="28">
+                <img src="图片4/2023.png" alt="2023">
+            </div>
+            <!-- 2024 -->
+            <div class="product-item" data-index="29">
+                <img src="图片4/2024.png" alt="2024">
+            </div>
+        </div>
+    </section>
+
+    <!-- 加入我们 -->
+    <section class="join-section" id="join">
+        <div class="container">
+            <div class="section-title">
+                <img src="图片5/title4.png" alt="加入我们" style="height: 42px;">
+            </div>
+            <div class="join-grid">
+                <div class="join-item">
+                    <div class="join-image-wrapper">
+                        <img src="图片5/join_img1.webp" alt="社会招聘">
+                        <span class="join-tag">社会招聘</span>
+                    </div>
+                    <div class="join-content">
+                        <div class="position">
+                            <span>魔方整合品牌营销经理</span>
+                            <span class="location">深圳</span>
+                        </div>
+                        <div class="position">
+                            <span>《暗区突围》手游客户端开发...</span>
+                            <span class="location">深圳</span>
+                        </div>
+                        <div class="position">
+                            <span>《异人之下》-高级数值策划</span>
+                            <span class="location">深圳</span>
+                        </div>
+                        <div class="position">
+                            <span>《洛克王国：世界》-资深3D...</span>
+                            <span class="location">深圳</span>
+                        </div>
+                        <a href="#" class="btn">更多岗位 →</a>
+                    </div>
+                </div>
+                <div class="join-item">
+                    <div class="join-image-wrapper">
+                        <img src="图片5/join_img2.png" alt="校园招聘">
+                        <span class="join-tag">校园招聘</span>
+                    </div>
+                    <div class="join-content">
+                        <div class="position">
+                            <span>软件开发-游戏引擎开发方向</span>
+                            <span class="location">深圳</span>
+                        </div>
+                        <div class="position">
+                            <span>游戏发行/运营培训生</span>
+                            <span class="location">深圳</span>
+                        </div>
+                        <div class="position">
+                            <span>2D角色设计</span>
+                            <span class="location">深圳</span>
+                        </div>
+                        <div class="position">
+                            <span>动画</span>
+                            <span class="location">深圳</span>
+                        </div>
+                        <a href="#" class="btn">更多岗位 →</a>
+                    </div>
+                </div>
+                <div class="join-item">
+                    <div class="join-image-wrapper">
+                        <img src="图片5/join_img3.webp" alt="腾娱招聘">
+                        <span class="join-tag">腾娱招聘</span>
+                    </div>
+                    <div class="join-content">
+                        <div class="position">
+                            <span>MCN生态运营经理-市场中心</span>
+                            <span class="location">深圳</span>
+                        </div>
+                        <div class="position">
+                            <span>特效设计-《洛克王国》手游</span>
+                            <span class="location">深圳</span>
+                        </div>
+                        <div class="position">
+                            <span>暗区突围-UE客户端开发</span>
+                            <span class="location">深圳</span>
+                        </div>
+                        <div class="position">
+                            <span>特性PM-《洛克王国》手游</span>
+                            <span class="location">深圳</span>
+                        </div>
+                        <a href="#" class="btn">更多岗位 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </div>
+
+    <!-- 底部栏 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="footer-icons">
+                        <a href="#" class="footer-icon"><img src="图片6/icon1.webp" alt="微信"></a>
+                        <a href="#" class="footer-icon"><img src="图片6/icon2.webp" alt="微博"></a>
+                        <a href="#" class="footer-icon"><img src="图片6/icon3.webp" alt="B站"></a>
+                        <a href="#" class="footer-icon"><img src="图片6/icon4.webp" alt="抖音"></a>
+                        <a href="#" class="footer-icon"><img src="图片6/icon5.webp" alt="视频号"></a>
+                        <a href="#" class="footer-icon"><img src="图片6/icon6.webp" alt="知乎"></a>
+                    </div>
+                    <div class="footer-links">
+                        <a href="#">腾讯互动娱乐</a> |
+                        <a href="#">服务条款</a> |
+                        <a href="#">隐私保护指引</a> |
+                        <a href="#">儿童隐私保护指引</a> |
+                        <a href="#">腾讯游戏招聘</a> |
+                        <a href="#">腾讯游戏客服</a> |
+                        <a href="#">游戏列表</a> |
+                        <a href="#">广告服务及商务合作</a>
+                    </div>
+                    <div class="footer-copyright">
+                        <p>腾讯公司版权所有 © 1998 - 2025 Tencent. All Rights Reserved.</p>
+                        <p>COPYRIGHT © 1998 - 2025 TENCENT. ALL RIGHTS RESERVED.</p>
+                        <p>工商网监电子标识 | 粤网文[2023] 6138-1456号 | （署）网出证（粤）字第018号</p>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <img src="图片6/logo.webp" alt="MOREFUN 魔方工作室群" class="footer-logo">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <div class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">↑</div>
+
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function () {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
+            } else {
+                navbar.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 轮播功能
+        document.addEventListener('DOMContentLoaded', function () {
+            const slides = document.querySelectorAll('.slide');
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            let currentIndex = 0;
+            let slideInterval;
+
+            // 初始化轮播
+            function initSlider() {
+                // 隐藏所有幻灯片，只显示当前活动的
+                slides.forEach((slide, index) => {
+                    if (index === currentIndex) {
+                        slide.classList.add('active');
+                        slide.style.display = 'block';
+                    } else {
+                        slide.classList.remove('active');
+                        slide.style.display = 'none';
+                    }
+                });
+
+                // 激活当前缩略图
+                thumbnails.forEach((thumbnail, index) => {
+                    if (index === currentIndex) {
+                        thumbnail.classList.add('active');
+                    } else {
+                        thumbnail.classList.remove('active');
+                    }
+                });
+
+                startAutoSlide();
+            }
+
+            // 显示指定幻灯片
+            function showSlide(index) {
+                // 隐藏所有幻灯片
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
+                    slide.style.display = 'none';
+                });
+
+                // 移除所有缩略图的active类
+                thumbnails.forEach(thumbnail => {
+                    thumbnail.classList.remove('active');
+                });
+
+                // 显示当前幻灯片
+                slides[index].classList.add('active');
+                slides[index].style.display = 'block';
+                // 激活当前缩略图
+                thumbnails[index].classList.add('active');
+
+                // 更新当前索引
+                currentIndex = index;
+            }
+
+            // 下一张幻灯片
+            function nextSlide() {
+                let nextIndex = currentIndex + 1;
+                if (nextIndex >= slides.length) {
+                    nextIndex = 0;
+                }
+                showSlide(nextIndex);
+                resetAutoSlide();
+            }
+
+            // 上一张幻灯片
+            function prevSlide() {
+                let prevIndex = currentIndex - 1;
+                if (prevIndex < 0) {
+                    prevIndex = slides.length - 1;
+                }
+                showSlide(prevIndex);
+                resetAutoSlide();
+            }
+
+            // 自动轮播
+            function startAutoSlide() {
+                slideInterval = setInterval(nextSlide, 5000); // 每5秒切换一次
+            }
+
+            // 重置自动轮播
+            function resetAutoSlide() {
+                clearInterval(slideInterval);
+                startAutoSlide();
+            }
+
+            // 事件监听
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            // 点击缩略图切换幻灯片
+            thumbnails.forEach((thumbnail, index) => {
+                thumbnail.addEventListener('click', () => {
+                    showSlide(index);
+                    resetAutoSlide();
+                });
+            });
+
+            // 初始化
+            initSlider();
+        });
+
+        // 图片点击效果和模态框
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.querySelector('.modal-img');
+            const closeBtn = document.querySelector('.close');
+            const gameImages = document.querySelectorAll('.game-image');
+
+            // 打开模态框
+            gameImages.forEach(img => {
+                img.addEventListener('click', function () {
+                    modal.style.display = 'block';
+                    modalImg.src = this.src;
+                    modalImg.alt = this.alt;
+                });
+            });
+
+            // 关闭模态框
+            closeBtn.addEventListener('click', function () {
+                modal.style.display = 'none';
+            });
+
+            // 点击模态框外部关闭
+            window.addEventListener('click', function (event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        // 游戏介绍栏交互功能
+        document.addEventListener('DOMContentLoaded', function () {
+            const gamesWrapper = document.getElementById('gamesWrapper');
+            const gamesGrid = document.getElementById('gamesGrid');
+            let gameItems = document.querySelectorAll('.game-item');
+            const leftArrow = document.getElementById('leftArrow');
+            const rightArrow = document.getElementById('rightArrow');
+            let currentIndex = 2; // 默认选中中间的游戏
+            const itemCount = gameItems.length;
+
+            // 复制游戏项，创建无限滚动效果
+            function duplicateGameItems() {
+                gameItems.forEach(item => {
+                    const clone = item.cloneNode(true);
+                    gamesGrid.appendChild(clone);
+                });
+            }
+
+            // 初始化
+            function initGames() {
+                // 复制游戏项
+                duplicateGameItems();
+
+                // 更新游戏项列表
+                gameItems = document.querySelectorAll('.game-item');
+
+                // 设置初始状态
+                gameItems.forEach((item, index) => {
+                    if (index === currentIndex) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+
+                updateGridPosition();
+            }
+
+            // 更新网格位置
+            function updateGridPosition() {
+                const containerWidth = gamesWrapper.offsetWidth;
+                const centerPosition = containerWidth / 2;
+
+                // 计算所有游戏项的位置
+                let totalWidth = 0;
+                for (let i = 0; i < currentIndex; i++) {
+                    totalWidth += gameItems[i].offsetWidth + 20; // 20是间距
+                }
+
+                // 计算当前项的中心位置
+                const currentItemWidth = gameItems[currentIndex].offsetWidth;
+                const currentItemCenter = totalWidth + currentItemWidth / 2;
+
+                // 计算偏移量
+                const offset = centerPosition - currentItemCenter;
+                gamesGrid.style.transform = `translateX(${offset}px)`;
+            }
+
+            // 滚动到下一个游戏
+            function scrollToNext() {
+                // 移除当前项的激活状态
+                gameItems[currentIndex].classList.remove('active');
+
+                // 增加索引
+                currentIndex++;
+
+                // 当滚动到复制的游戏项时，无缝切换到原始游戏项
+                if (currentIndex >= itemCount) {
+                    // 瞬间切换到对应的原始游戏项
+                    currentIndex = currentIndex - itemCount;
+
+                    // 禁用过渡效果
+                    gamesGrid.style.transition = 'none';
+
+                    // 更新位置
+                    updateGridPosition();
+
+                    // 强制重排
+                    void gamesGrid.offsetWidth;
+
+                    // 恢复过渡效果
+                    gamesGrid.style.transition = 'transform 0.5s ease';
+                }
+
+                // 添加新项的激活状态
+                gameItems[currentIndex].classList.add('active');
+
+                // 更新位置
+                updateGridPosition();
+            }
+
+            // 滚动到上一个游戏
+            function scrollToPrev() {
+                // 移除当前项的激活状态
+                gameItems[currentIndex].classList.remove('active');
+
+                // 减少索引
+                currentIndex--;
+
+                // 当滚动到原始游戏项的开头时，无缝切换到复制的游戏项
+                if (currentIndex < 0) {
+                    // 瞬间切换到对应的复制游戏项
+                    currentIndex = currentIndex + itemCount;
+
+                    // 禁用过渡效果
+                    gamesGrid.style.transition = 'none';
+
+                    // 更新位置
+                    updateGridPosition();
+
+                    // 强制重排
+                    void gamesGrid.offsetWidth;
+
+                    // 恢复过渡效果
+                    gamesGrid.style.transition = 'transform 0.5s ease';
+                }
+
+                // 添加新项的激活状态
+                gameItems[currentIndex].classList.add('active');
+
+                // 更新位置
+                updateGridPosition();
+            }
+
+            // 点击游戏项
+            gamesGrid.addEventListener('click', function (e) {
+                const gameItem = e.target.closest('.game-item');
+                if (gameItem) {
+                    scrollToNext();
+                }
+            });
+
+            // 左箭头点击
+            leftArrow.addEventListener('click', function () {
+                leftArrow.classList.add('active');
+                rightArrow.classList.remove('active');
+                scrollToPrev();
+            });
+
+            // 右箭头点击
+            rightArrow.addEventListener('click', function () {
+                rightArrow.classList.add('active');
+                leftArrow.classList.remove('active');
+                scrollToNext();
+            });
+
+            // 窗口大小变化时重新计算位置
+            window.addEventListener('resize', updateGridPosition);
+
+            // 初始化
+            initGames();
+        });
+
+        // 时间轴和图片联动功能
+        document.addEventListener('DOMContentLoaded', function () {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const productItems = document.querySelectorAll('.product-item');
+            const productsGrid = document.getElementById('productsGrid');
+            const timeline = document.querySelector('.timeline');
+
+            let currentIndex = 28; // 默认选中2023
+            let isScrolling = false;
+            let scrollTimeout;
+
+            // 更新显示状态的函数
+            function updateDisplay(index) {
+                currentIndex = index;
+
+                // 更新时间轴
+                timelineItems.forEach(t => t.classList.remove('active'));
+                timelineItems[index].classList.add('active');
+
+                // 滚动时间轴到可视区域
+                const timelineItem = timelineItems[index];
+                const timelineRect = timeline.getBoundingClientRect();
+                const itemRect = timelineItem.getBoundingClientRect();
+                const scrollLeft = timeline.scrollLeft + itemRect.left - timelineRect.left - timelineRect.width / 2 + itemRect.width / 2;
+                timeline.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+
+                // 滚动图片到可视区域
+                const productItem = productItems[index];
+                const gridRect = productsGrid.getBoundingClientRect();
+                const productRect = productItem.getBoundingClientRect();
+                const productScrollLeft = productsGrid.scrollLeft + productRect.left - gridRect.left - gridRect.width / 2 + productRect.width / 2;
+                productsGrid.scrollTo({ left: productScrollLeft, behavior: 'smooth' });
+
+                // 高亮对应的图片
+                productItems.forEach((product, i) => {
+                    if (i === index) {
+                        product.style.opacity = '1';
+                        product.style.transform = 'scale(1.05)';
+                        product.style.boxShadow = '0 8px 20px rgba(0,0,0,0.2)';
+                    } else {
+                        product.style.opacity = '0.6';
+                        product.style.transform = 'scale(1)';
+                        product.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                    }
+                });
+            }
+
+            // 点击时间节点
+            timelineItems.forEach((item, index) => {
+                item.addEventListener('click', function () {
+                    updateDisplay(index);
+                });
+            });
+
+            // 点击图片
+            productItems.forEach((product, index) => {
+                product.addEventListener('click', function () {
+                    updateDisplay(index);
+                });
+            });
+
+            // 初始化
+            updateDisplay(currentIndex);
+        });
+    </script>
+</body>
+
+</html>
