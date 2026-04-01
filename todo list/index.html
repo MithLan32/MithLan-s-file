@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 头部 -->
+        <header>
+            <h1>✨ TODO ✨</h1>
+            <div class="header-actions">
+                <span class="author">MithLan / 中</span>
+            </div>
+        </header>
+        
+        <!-- 添加待办事项区域 -->
+        <div class="add-todo">
+            <input type="text" id="todo-input" placeholder="新增待办事项...">
+            <button id="add-todo-btn">提交</button>
+        </div>
+        
+        <!-- 主要内容区域 -->
+        <div class="main-content">
+            <!-- 待办事项容器 -->
+            <div class="todo-container">
+                <!-- 待办事项头部 -->
+                <div class="todo-header">
+                    <button id="complete-all-btn">全部标为完成</button>
+                    <span class="motto">今日事今日毕，勿将今事待明日！✨</span>
+                </div>
+                <!-- 待办事项列表 -->
+                <div id="todo-list"></div>
+                <!-- 待办事项底部 -->
+                <div class="todo-footer">
+                    <span id="todo-count">剩余 0 项未完成</span>
+                </div>
+            </div>
+            
+            <!-- 侧边栏快捷操作 -->
+            <div class="sidebar">
+                <div class="sidebar-header">开 ✨</div>
+                <div class="sidebar-item">全部</div>
+                <div class="sidebar-item" id="completed-filter">已完成</div>
+                <div class="sidebar-item" id="clear-completed-btn">清除已完成</div>
+                <div class="sidebar-item" id="clear-all-btn">清除全部</div>
+                <div class="sidebar-item" id="recycle-bin-btn">回收站</div>
+                <div class="sidebar-item" id="import-btn">导入 (txt/json)</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 回收站模态框 -->
+    <div id="recycle-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>回收站</h3>
+            <div id="recycle-list"></div>
+            <button id="empty-recycle-btn">清空回收站</button>
+        </div>
+    </div>
+    
+    <!-- 脚本文件 -->
+    <script src="script.js"></script>
+</body>
+</html>
