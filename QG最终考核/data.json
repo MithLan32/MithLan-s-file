@@ -1,0 +1,222 @@
+{
+  "users": [
+    {
+      "_id": 1,
+      "username": "admin",
+      "email": "admin@example.com",
+      "phone": "13800138000",
+      "password": "$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
+      "role": "admin"
+    },
+    {
+      "_id": 2,
+      "username": "user1",
+      "email": "user1@example.com",
+      "phone": "13800138001",
+      "password": "$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
+      "role": "leader"
+    },
+    {
+      "_id": 3,
+      "username": "user2",
+      "email": "user2@example.com",
+      "phone": "13800138002",
+      "password": "$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
+      "role": "member"
+    },
+    {
+      "_id": 4,
+      "username": "user3",
+      "email": "user3@example.com",
+      "phone": "13800138003",
+      "password": "$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
+      "role": "member"
+    }
+  ],
+  "projects": [
+    {
+      "_id": 1,
+      "name": "QG协作平台",
+      "description": "团队协作与版本管理平台",
+      "createdAt": "2026-04-01",
+      "members": [
+        "admin",
+        "user1",
+        "user2"
+      ]
+    },
+    {
+      "_id": 2,
+      "name": "移动应用开发",
+      "description": "跨平台移动应用",
+      "createdAt": "2026-04-02",
+      "members": [
+        "admin",
+        "user3"
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "_id": 1,
+      "projectId": 1,
+      "title": "完成用户认证功能",
+      "description": "实现登录、注册和权限控制",
+      "status": "todo",
+      "priority": "high",
+      "assignee": "admin",
+      "dueDate": "2026-04-10",
+      "tag": "功能开发",
+      "branch": "main",
+      "progress": 0,
+      "timeSpent": 0,
+      "dependencies": [],
+      "comment": ""
+    },
+    {
+      "_id": 2,
+      "projectId": 1,
+      "title": "开发项目管理页面",
+      "description": "实现项目的创建、编辑和删除",
+      "status": "in_progress",
+      "priority": "medium",
+      "assignee": "user1",
+      "dueDate": "2026-04-15",
+      "tag": "功能开发",
+      "branch": "feature-auth",
+      "progress": 50,
+      "timeSpent": 7200,
+      "dependencies": [],
+      "comment": ""
+    },
+    {
+      "_id": 3,
+      "projectId": 1,
+      "title": "测试任务看板",
+      "description": "测试任务拖拽和状态更新",
+      "status": "done",
+      "priority": "low",
+      "assignee": "user2",
+      "dueDate": "2026-04-05",
+      "tag": "测试",
+      "branch": "main",
+      "progress": 100,
+      "timeSpent": 3600,
+      "dependencies": [],
+      "comment": ""
+    }
+  ],
+  "branches": [
+    {
+      "_id": 1,
+      "projectId": 1,
+      "name": "main",
+      "type": "main",
+      "parentId": null,
+      "createdAt": "2026-04-01",
+      "lastCommit": "Initial commit"
+    },
+    {
+      "_id": 2,
+      "projectId": 1,
+      "name": "feature-auth",
+      "type": "feature",
+      "parentId": 1,
+      "createdAt": "2026-04-02",
+      "lastCommit": "Add login functionality"
+    },
+    {
+      "_id": 3,
+      "projectId": 1,
+      "name": "hotfix-bug",
+      "type": "hotfix",
+      "parentId": 1,
+      "createdAt": "2026-04-03",
+      "lastCommit": "Fix critical bug"
+    }
+  ],
+  "commits": [
+    {
+      "_id": 1,
+      "projectId": 1,
+      "branchId": 1,
+      "hash": "abc123",
+      "message": "Initial commit",
+      "author": "admin",
+      "date": "2026-04-01 10:00:00"
+    },
+    {
+      "_id": 2,
+      "projectId": 1,
+      "branchId": 2,
+      "hash": "def456",
+      "message": "Add login functionality",
+      "author": "user1",
+      "date": "2026-04-02 14:30:00"
+    },
+    {
+      "_id": 3,
+      "projectId": 1,
+      "branchId": 3,
+      "hash": "ghi789",
+      "message": "Fix critical bug",
+      "author": "admin",
+      "date": "2026-04-03 09:15:00"
+    }
+  ],
+  "notifications": [
+    {
+      "_id": 1,
+      "userId": 1,
+      "title": "任务分配",
+      "content": "您被分配了新任务：完成用户认证功能",
+      "read": false,
+      "type": "task",
+      "createdAt": "2026-04-07 10:00:00"
+    },
+    {
+      "_id": 2,
+      "userId": 1,
+      "title": "分支合并",
+      "content": "分支 feature-auth 已成功合并到 main",
+      "read": false,
+      "type": "branch",
+      "createdAt": "2026-04-07 09:30:00"
+    },
+    {
+      "_id": 3,
+      "userId": 1,
+      "title": "项目更新",
+      "content": "项目 QG协作平台 已更新",
+      "read": true,
+      "type": "project",
+      "createdAt": "2026-04-06 16:00:00"
+    }
+  ],
+  "teams": [
+    {
+      "_id": 1,
+      "name": "开发团队",
+      "description": "负责项目开发的团队",
+      "avatar": "https://via.placeholder.com/50",
+      "members": [
+        "admin",
+        "user1",
+        "user2"
+      ],
+      "createdAt": "2026-04-01"
+    },
+    {
+      "_id": 2,
+      "name": "测试团队",
+      "description": "负责项目测试的团队",
+      "avatar": "https://via.placeholder.com/50",
+      "members": [
+        "admin",
+        "user3"
+      ],
+      "createdAt": "2026-04-02"
+    }
+  ],
+  "resetCodes": []
+}
